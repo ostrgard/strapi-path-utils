@@ -13,6 +13,11 @@ const modifyFields = (entity) => ({
       : undefined,
 });
 
+const getPreviewKeyFromUrl = (url) =>
+  url.includes("preview_key=")
+    ? url.split("?preview_key=")[1].split("&")[0]
+    : undefined;
+
 const generateController = ({ contentType, controller = {} }) => ({
   ...controller,
   async find(ctx) {
@@ -31,17 +36,17 @@ const generateController = ({ contentType, controller = {} }) => ({
   },
   async findOne(ctx) {
     const { id } = ctx.params;
+    const previewKey = getPreviewKeyFromUrl(ctx.request.url);
+
     const entity = controller.findOne
       ? await controller.findOne(ctx)
       : sanitizeEntity(await strapi.services[contentType].findOne({ id }), {
           model: strapi.models[contentType],
         });
 
-    if (!entity || !entity.published) {
-      return undefined;
+    if (entity && (entity.published || entity.preview_key === previewKey)) {
+      return modifyFields(entity);
     }
-
-    return modifyFields(entity);
   },
 });
 
