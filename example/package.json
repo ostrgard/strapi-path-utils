@@ -1,15 +1,12 @@
 {
-  "name": "example",
-  "private": true,
+  "name": "strapi-path-utils-example",
   "version": "0.1.0",
-  "description": "A Strapi application",
   "scripts": {
     "develop": "strapi develop",
     "start": "strapi start",
     "build": "strapi build",
     "strapi": "strapi"
   },
-  "devDependencies": {},
   "dependencies": {
     "strapi": "3.1.4",
     "strapi-admin": "3.1.4",
@@ -24,7 +21,7 @@
     "sqlite3": "latest"
   },
   "author": {
-    "name": "A Strapi developer"
+    "name": "Søren Østergaard<soestergaards@gmail.com>"
   },
   "strapi": {
     "uuid": "51ff9f6d-f76d-4af9-81a9-a434cc6a1913"
