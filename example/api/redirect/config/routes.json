@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/redirects",
+      "handler": "redirect.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/redirects/count",
+      "handler": "redirect.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/redirects/:id",
+      "handler": "redirect.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/redirects",
+      "handler": "redirect.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/redirects/:id",
+      "handler": "redirect.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/redirects/:id",
+      "handler": "redirect.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

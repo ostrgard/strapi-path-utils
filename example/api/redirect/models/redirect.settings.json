@@ -1,0 +1,19 @@
+{
+  "kind": "collectionType",
+  "collectionName": "redirects",
+  "info": {
+    "name": "redirect"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "from": {
+      "type": "string"
+    },
+    "to": {
+      "type": "string"
+    }
+  }
+}

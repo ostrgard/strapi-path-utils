@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "pages",
+  "info": {
+    "name": "page"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "preview_key": {
+      "type": "string"
+    },
+    "path": {
+      "type": "string"
+    },
+    "parent": {
+      "model": "page",
+      "via": "children"
+    },
+    "children": {
+      "collection": "page",
+      "via": "parent"
+    },
+    "published": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

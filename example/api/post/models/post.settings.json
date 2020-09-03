@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "posts",
+  "info": {
+    "name": "post"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "path": {
+      "type": "string"
+    },
+    "preview_key": {
+      "type": "string"
+    },
+    "published": {
+      "type": "boolean"
+    }
+  }
+}
