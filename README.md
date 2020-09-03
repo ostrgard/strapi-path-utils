@@ -6,11 +6,7 @@ _Currently tested with strapi@3.1.4_
 
 Strapi is sweet, right? But if you're building your typical corporate website with Strapi, you'll need some pretty basic things, that are more readily available in other more traditional content management systems: paths for content and the ability to draft and preview without publishing.
 
-These utility helps you get those things by wrapping your Strapi controller and model. Doing so will get you **generated infinitely nestable paths and pages** with **managed redirects**, **publish status** and **preview fetch logic** for each entity of this type.
-
-Coming up: **Guide**: Add buttons that link admin entries to the frontend.
-
-Coming up: **Guide**: Add static site build status (like gatsby or next) for each entry into Strapi's interface. Automatically link to preview page if current entry is being generated.
+These utilities help you get those things by wrapping your Strapi controller and model. Doing so will get you **generated infinitely nestable paths and pages** with **managed redirects**, **publish status and preview fetch logic** for each entity of this type.
 
 ### Nested paths with redirects
 - Generates a `path` for each entry.
@@ -42,13 +38,13 @@ Coming up: **Guide**: Add static site build status (like gatsby or next) for eac
         module.exports = generateModel({ contentType: "<collection type name ie. 'post'>" });
         ```
 
-# Documentation
+# API
 
 ## `generateModel`
 Using the `beforeCreate` and `beforeUpdate` lifecycle hooks, it generates a model for your `contentType` that handles creation and deletion of `redirect`s, generation of paths on creation and updates, recursively updates of children and generation of `preview_key`.
 
 ### Options
-- `contentType`: pass the content type ie. `page` (**required**).
+- `contentType`(**required**): pass the content type ie. `page`.
 - `model`: optionally pass a model configuration [as described in Strapi's docs](https://strapi.io/documentation/v3.x/concepts/models.html#lifecycle-hooks). If you have additional logic using `beforeCreate` and `beforeUpdate` lifecycle hooks, these will be called by the generated model.
 - `getBasePath`: optionally pass an async function that returns a path you want to use as base for all entries of this model.
 
@@ -71,7 +67,7 @@ generateModel({
 Using the `find` and `findOne` lifecycle hooks, it generates a controller for your `contentType` that handles filtering out unpublished content entries unless they're queried by their `preview_key`.
 
 ### Options
-- `contentType`: pass the content type ie. `page` (**required**).
+- `contentType`(**required**): pass the content type ie. `page`.
 - `controller`: optionally pass a controller configuration [as described in Strapi's docs](https://strapi.io/documentation/v3.x/concepts/controllers.html#core-controllers). If you have additional logic using `find` and `findOne` lifecycle hooks, these will be called by the generated controller.
 
 
@@ -101,3 +97,5 @@ If you find this useful, please let me know and I'll consider doing some more wo
 - [ ] Rewrite in ts (ts is my own prefered language, but not widely adopted by the strapi community, which is why it's plain js for now).
 - [ ] Example with pages and posts as content types.
 - [ ] Tests!
+- [ ] Guide for adding buttons that link admin entries to the frontend using the path field.
+- [ ] Guide for adding visual static site build status (gatsby, nextjs, etc.) for each entry into Strapi's interface. Automatically link to preview page if changes to an entry is currently in the process of being build and deployed.
