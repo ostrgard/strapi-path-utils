@@ -1,0 +1,31 @@
+{
+  "name": "strapi-path-utils",
+  "version": "0.0.1",
+  "description": "Strapi utils for nested paths, managing redirects, published status and preview fetch logic.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/ostrgard/strapi-path-utils.git"
+  },
+  "keywords": [
+    "strapi",
+    "path",
+    "nested",
+    "paths",
+    "published",
+    "preview"
+  ],
+  "author": "Søren Østergaard <soestergaards@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ostrgard/strapi-path-utils/issues"
+  },
+  "homepage": "https://github.com/ostrgard/strapi-path-utils#readme",
+  "dependencies": {
+    "strapi-utils": "^3.1.4",
+    "uniqid": "^5.2.0"
+  }
+}
