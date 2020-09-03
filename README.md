@@ -4,13 +4,13 @@ _Currently tested with strapi@3.1.4_
 
 # What's this?
 
-Strapi is pretty sweet right?
+Strapi is sweet, right? But if you're building your typical corporate website with Strapi, you'll need some pretty basic things, that are more readily available in other more traditional content management systems: paths for content and the ability to draft and preview without publishing.
 
-Wrapping your Strapi controller and model with these utility functions will get you **generated infinitely nested paths** with **redirects**, **publish status** and **preview logic** for each entity of this type.
+These utility helps you get those things by wrapping your Strapi controller and model. Doing so will get you **generated infinitely nestable paths and pages** with **managed redirects**, **publish status** and **preview fetch logic** for each entity of this type.
 
-**Guide**: Add button that link admin entries to the frontend. (Coming up)
+Coming up: **Guide**: Add buttons that link admin entries to the frontend.
 
-**Guide**: Add static site build status for each entry into Strapi's interface. Automatically link to preview page if current entry is being generated. (Coming up)
+Coming up: **Guide**: Add static site build status (like gatsby or next) for each entry into Strapi's interface. Automatically link to preview page if current entry is being generated.
 
 ### Nested paths with redirects
 - Generates a `path` for each entry.
@@ -33,13 +33,13 @@ Wrapping your Strapi controller and model with these utility functions will get 
         ```js
         const { generateModel } = require("strapi-web-tools");
 
-        module.exports = generateModel({ contentType: "<lower case type name ie. 'page'>" });
+        module.exports = generateModel({ contentType: "<collection type name ie. 'page'>" });
         ```
     5. Wrap the generated controller in:
         ```js
         const { generateController } = require("strapi-web-tools");
 
-        module.exports = generateModel({ contentType: "<lower case type name ie. 'post'>" });
+        module.exports = generateModel({ contentType: "<collection type name ie. 'post'>" });
         ```
 
 # Documentation
@@ -64,6 +64,30 @@ generateModel({
   getBasePath: async () =>
     // Get the path of the blog page
     (await strapi.query("navigation").findOne()).blog_page.path,
+});
+```
+
+## `generateController`
+Using the `find` and `findOne` lifecycle hooks, it generates a controller for your `contentType` that handles filtering out unpublished content entries unless they're queried by their `preview_key`.
+
+### Options
+- `contentType`: pass the content type ie. `page` (**required**).
+- `controller`: optionally pass a controller configuration [as described in Strapi's docs](https://strapi.io/documentation/v3.x/concepts/controllers.html#core-controllers). If you have additional logic using `find` and `findOne` lifecycle hooks, these will be called by the generated controller.
+
+
+### Example
+```js
+generateController({
+  contentType: "post",
+  controller: {
+    find: async(ctx) {
+      const entities = await strapi.services[contentType].find({
+        ...ctx.query,
+        // Some curstom find logic that you want
+      })
+      return entities.map((entity) => sanitizeEntity(entity, { model: strapi.models.post }));
+    }
+  },
 });
 ```
 
