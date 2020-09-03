@@ -19,7 +19,7 @@ These utilities help you get those things by wrapping your Strapi controller and
 ### Published state and preview key
 - Entries with `published` set to false will not be exposed in the api unless the query includes a matching preview key.
 
-> Disclaimer! I've used this logic on a few projects which is why I'm centralising it in this repo. It is super 0.0.1 and haven't been widely tested outside my own use cases, so use at your own risk. If you find this useful, please let me know and I'll consider doing some more work on it 🙏
+> ⚠️ **Disclaimer!** I've used this logic on a few projects which is why I'm centralising it in this repo. It is super 0.0.1 and haven't been widely tested outside my own use cases, so use at your own risk. If you find this useful, please let me know and I'll consider doing some more work on it 🙏
 
 ## Setup
 1. Create a `redirect` content type with two string fields: `from` and `to`.
@@ -89,15 +89,10 @@ generateController({
 });
 ```
 
-# Status
-This logic have been used on a few projects which is why I'm centralising it in this repo. This repo is super 0.0.1 and haven't been widely tested outside my own use cases. Use at your own risk.
-
-If you find this useful, please let me know and I'll consider doing some more work on it :)
-
-## What should happen next
-- [ ] Consider if this can be wrapped in an extension.
-- [ ] Rewrite in ts (ts is my own prefered language, but not widely adopted by the strapi community, which is why it's plain js for now).
-- [ ] Example with pages and posts as content types.
-- [ ] Tests!
+# What should happen next?
+- [x] Example with pages and posts as content types.
 - [ ] Guide for adding buttons that link admin entries to the frontend using the path field.
 - [ ] Guide for adding visual static site build status (gatsby, nextjs, etc.) for each entry into Strapi's interface. Automatically link to preview page if changes to an entry is currently in the process of being build and deployed.
+- [ ] Consider if this can be packaged as an extension.
+- [ ] Rewrite in ts (ts is my own prefered language, but a hassle to use with strapi (admittedly, I didn't bother researching too much), which is why it's plain js for now).
+- [ ] Tests!
