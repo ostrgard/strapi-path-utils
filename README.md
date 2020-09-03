@@ -19,6 +19,8 @@ These utilities help you get those things by wrapping your Strapi controller and
 ### Published state and preview key
 - Entries with `published` set to false will not be exposed in the api unless the query includes a matching preview key.
 
+> Disclaimer! I've used this logic on a few projects which is why I'm centralising it in this repo. It is super 0.0.1 and haven't been widely tested outside my own use cases, so use at your own risk. If you find this useful, please let me know and I'll consider doing some more work on it 🙏
+
 ## Setup
 1. Create a `redirect` content type with two string fields: `from` and `to`.
 2. For each content type that you want to apply this logic to:
