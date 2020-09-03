@@ -29,13 +29,13 @@ These utilities help you get those things by wrapping your Strapi controller and
     3. If you want the nesting feature: add a relation field, select the "<Type> has many <Types>" option and call the left hand field name `parent` and the right hand field name `children`.
     4. Wrap the generated model in:
         ```js
-        const { generateModel } = require("strapi-web-tools");
+        const { generateModel } = require("strapi-path-utils");
 
         module.exports = generateModel({ contentType: "<collection type name ie. 'page'>" });
         ```
     5. Wrap the generated controller in:
         ```js
-        const { generateController } = require("strapi-web-tools");
+        const { generateController } = require("strapi-path-utils");
 
         module.exports = generateModel({ contentType: "<collection type name ie. 'post'>" });
         ```
