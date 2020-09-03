@@ -2,15 +2,13 @@ const uniqid = require("uniqid");
 const slugFromTitle = require("./slugFromTitle").default;
 const { createRedirect, removeRedirectForPath } = require("./redirect");
 
-async function generatePath(entity, parentPath, contentType, index) {
+async function generatePath(entity, basePath, contentType, index) {
   const slug = slugFromTitle(entity.title, index);
   const path = `/${slug}`;
 
-  if (parentPath) return parentPath + path;
+  if (!entity.parent) return basePath + path;
 
-  if (!entity.parent) return path;
-
-  // Depending on how the entity were fetched, the parent is either an id string
+  // Depending on how the object were fetched, the child is either an id string
   // or an object.
   const parent = entity.parent.id
     ? entity.parent
@@ -19,8 +17,8 @@ async function generatePath(entity, parentPath, contentType, index) {
   return parent.path + path;
 }
 
-async function generateUniquePath(entity, parentPath, contentType, index = 0) {
-  const path = await generatePath(entity, parentPath, contentType, index);
+async function generateUniquePath(entity, basePath, contentType, index = 0) {
+  const path = await generatePath(entity, basePath, contentType, index);
 
   const otherEntitiesWithPath = await strapi
     .query(contentType)
@@ -28,13 +26,13 @@ async function generateUniquePath(entity, parentPath, contentType, index = 0) {
 
   return otherEntitiesWithPath === 0
     ? path
-    : generateUniquePath(entity, parentPath, contentType, index + 1);
+    : generateUniquePath(entity, basePath, contentType, index + 1);
 }
 
 async function updateChildren(data, contentType) {
   const childUpdates = data.children.map(async (c) => {
-    // Depending on how object were fetched, the child is either an id string or
-    // an object.
+    // Depending on how the object were fetched, the child is either an id
+    // string or an object.
     const child = await strapi.query(contentType).findOne({ id: c.id || c });
     return strapi
       .query(contentType)
@@ -44,7 +42,11 @@ async function updateChildren(data, contentType) {
   return Promise.all(childUpdates);
 }
 
-const generateModel = ({ contentType, model = {}, getBasePath }) => ({
+const generateModel = ({
+  contentType,
+  model = {},
+  getBasePath = () => "",
+}) => ({
   ...model,
   lifecycles: {
     async beforeCreate(data) {
@@ -52,9 +54,9 @@ const generateModel = ({ contentType, model = {}, getBasePath }) => ({
         await model.beforeCreate(data);
       }
 
-      const parentPath = getBasePath ? await getBasePath() : undefined;
+      const basePath = await getBasePath();
       data.preview_key = uniqid();
-      data.path = await generateUniquePath(data, parentPath, contentType);
+      data.path = await generateUniquePath(data, basePath, contentType);
 
       // Remove redirect that match the path if it exists
       if (data.published) {
@@ -66,8 +68,8 @@ const generateModel = ({ contentType, model = {}, getBasePath }) => ({
         await model.beforeCreate(params, data);
       }
 
-      const parentPath = getBasePath ? await getBasePath() : undefined;
-      const path = await generateUniquePath(data, parentPath, contentType);
+      const basePath = getBasePath ? await getBasePath() : undefined;
+      const path = await generateUniquePath(data, basePath, contentType);
 
       // Remove redirect that match the path if it exists
       if (data.published) {
