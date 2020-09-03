@@ -6,6 +6,7 @@ const modifyFields = (entity) => {
   return {
     ...entity,
     preview_key: undefined,
+    published: undefined,
     children: entity.children
       ? entity.children.filter((n) => n.published).map(modifyFields)
       : undefined,
@@ -33,11 +34,16 @@ const generateController = ({ contentType, controller = {} }) => ({
       .map(modifyFields);
   },
   async findOne(ctx) {
+    const { id } = ctx.params;
     const entity = controller.findOne
       ? await controller.findOne(ctx)
-      : sanitizeEntity(await strapi.services[contentType].findOne(ctx.query), {
+      : sanitizeEntity(await strapi.services[contentType].findOne({ id }), {
           model: strapi.models[contentType],
         });
+
+    if (!entity || !entity.published) {
+      return undefined;
+    }
 
     return modifyFields(entity);
   },
