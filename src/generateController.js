@@ -1,21 +1,17 @@
 const { sanitizeEntity } = require("strapi-utils");
 
-const modifyFields = (entity) => {
-  if (!entity) return entity;
-
-  return {
-    ...entity,
-    preview_key: undefined,
-    published: undefined,
-    children: entity.children
-      ? entity.children.filter((n) => n.published).map(modifyFields)
+const modifyFields = (entity) => ({
+  ...entity,
+  preview_key: undefined,
+  published: undefined,
+  children: entity.children
+    ? entity.children.filter((n) => n.published).map(modifyFields)
+    : undefined,
+  parent:
+    entity.parent && entity.parent.published
+      ? modifyFields(entity.parent)
       : undefined,
-    parent:
-      entity.parent && entity.parent.published
-        ? modifyFields(entity.parent)
-        : undefined,
-  };
-};
+});
 
 const generateController = ({ contentType, controller = {} }) => ({
   ...controller,
