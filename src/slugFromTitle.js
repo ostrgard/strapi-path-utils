@@ -6,7 +6,7 @@ function slugFromTitle(title, index) {
     .replace(/ø/g, "oe")
     .replace(/å/g, "aa")
     .replace(/\s/g, "-")
-    .replace(/[^a-z0-9-]/, "");
+    .replace(/[^a-z0-9-]/g, "");
 
   return index === 0 ? slug : `${slug}-${index + 1}`;
 }
