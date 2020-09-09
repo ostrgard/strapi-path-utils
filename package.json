@@ -1,6 +1,6 @@
 {
   "name": "strapi-path-utils",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Strapi utils for nested paths, managing redirects, published status and preview fetch logic.",
   "main": "index.js",
   "scripts": {
